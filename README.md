@@ -83,10 +83,12 @@ Node 版本由 `package.json` 的 `engines.node` 指定（`>=20.9.0`），无需
 
 Project → Settings → Domains → Add `lab.anahgo.com`，然后在 `anahgo.com` 的 DNS 解析处加一条记录：
 
+CNAME 的目标值**每个项目不同**，用 Vercel 域名卡片上显示的那一个（形如 `cname.vercel-dns-0.com` 或 `<id>.vercel-dns-017.com`），不要照抄网上的通用值：
+
 ```
 类型  CNAME
 名称  lab
-值    cname.vercel-dns.com
+值    <Vercel 面板给出的值>
 TTL   600（或自动）
 ```
 
