@@ -61,46 +61,42 @@ npm run dev
 
 本机 `github.com:443` 直连超时，https 推送会失败。仓库已改为 SSH 推送：`core.sshCommand` 指向 `~/.ssh/lab_anahgo_github`，对应公钥已注册为该仓库的可写 Deploy Key，正常 `git push` 即可。换机器时需要重新生成密钥并登记。
 
-首次接入只需在 Vercel 导入一次，之后不需要手动操作。
-
-**1. 导入项目**
-
-Vercel → Add New → Project → Import Git Repository → 选 `lab_anahgo`。Framework Preset 会自动识别为 Next.js，以下三项保持默认即可：
+### 当前状态
 
 | 项 | 值 |
 | --- | --- |
-| Root Directory | `./`（仓库根） |
-| Build Command | `next build` |
-| Output Directory | `.next` |
+| Vercel 项目 | `lab-anahgo`（`prj_cwLpgFA93r6XqiJ4ZqwY26wfG0Ku`） |
+| 生产分支 | `main`，随推送自动部署 |
+| 默认访问地址 | https://lab-anahgo.vercel.app |
+| 自定义域名 | `lab.anahgo.com`（已挂载，**DNS 尚未指向 Vercel**） |
+| 环境变量 | `NEXT_PUBLIC_SITE_URL=https://lab.anahgo.com`（production + preview） |
 
-Node 版本由 `package.json` 的 `engines.node` 指定（`>=20.9.0`），无需在面板单独设置。
+项目已接入并成功完成首次生产部署（构建 31 秒，产出三语首页、关于页、5 个可见项目详情页及其 OG 图、站点地图与 robots）。后续改动只需 `git push`，不需要再动 Vercel。
 
-**2. 环境变量**（Project → Settings → Environment Variables）
+### 唯一剩余步骤：把 DNS 指向 Vercel
 
-至少填 `NEXT_PUBLIC_SITE_URL=https://lab.anahgo.com`。其余变量见上文表格，留空也能构建，只是对应功能不生效。改完环境变量需要重新部署一次才会注入。
-
-**3. 绑定域名**
-
-Project → Settings → Domains → Add `lab.anahgo.com`，然后在 `anahgo.com` 的 DNS 解析处加一条记录：
-
-CNAME 的目标值**每个项目不同**，用 Vercel 域名卡片上显示的那一个（形如 `cname.vercel-dns-0.com` 或 `<id>.vercel-dns-017.com`），不要照抄网上的通用值：
+`lab.anahgo.com` 现在仍解析到旧的 `64.83.24.248`，Vercel 侧判定为 `misconfigured`。在 Cloudflare 的 `anahgo.com` 下加（或改）一条记录：
 
 ```
 类型  CNAME
 名称  lab
-值    <Vercel 面板给出的值>
-TTL   600（或自动）
+值    413f6e525fb7d20b.vercel-dns-017.com
+代理  DNS only（关闭橙色云）
+TTL   自动
 ```
 
-Vercel 校验解析生效后自动签发证书，通常几分钟内完成。只改 `lab` 这一条，其余子域不受影响。
+两个要点：
 
-`anahgo.com` 的 DNS 托管在 Cloudflare，加记录时把代理状态设为 **DNS only（灰色云）**，不要开 Proxied：Cloudflare 的代理会接管 TLS，Vercel 签发与续期证书时的验证请求可能被改写，导致域名卡在 pending。
+1. **CNAME 值用上面这个，不要照抄网上的通用值**。它带项目 ID，是这个项目专属的；Vercel 给出的备选（rank 2）是 `cname.vercel-dns.com`，也能用但收敛慢。
+2. **代理状态必须是 DNS only（灰云）**。开 Proxied 后 Cloudflare 接管 TLS，Vercel 签发与续期证书时的验证请求会被改写，域名会卡在 pending。
 
-现状：`lab` 原先是一条指向 `64.83.24.248` 的 A 记录，且未走 Cloudflare，当前已不可访问；其余子域都解析到 Cloudflare（104.21 / 172.67 段）。改之前确认那台机器上没有仍在用的服务。
+原先那条指向 `64.83.24.248` 的 A 记录要删掉——CNAME 与同名 A 记录共存时，部分递归 DNS 会优先回 A 记录，导致校验时通时不通。改动只涉及 `lab`，其余子域不受影响；改之前确认那台机器上没有仍在用的服务。
 
-**4. 提交搜索引擎**
+解析生效后（通常几分钟），Vercel 自动签发证书，域名卡片会转为 Valid Configuration。若想改走 A 记录，Vercel 为该项目推荐的 IP 是 `216.198.79.1` 与 `64.29.17.1`（两条都加），备选是单条 `76.76.21.21`。
 
-部署成功后把 `https://lab.anahgo.com/sitemap.xml` 提交到 Google Search Console 与 Bing Webmaster Tools。若配置了站点验证变量，meta 会自动输出。
+### 提交搜索引擎
+
+域名生效后，把 `https://lab.anahgo.com/sitemap.xml` 提交到 Google Search Console 与 Bing Webmaster Tools。若配置了站点验证变量，meta 会自动输出。
 
 ## 管理入口
 
@@ -139,7 +135,7 @@ Vercel 校验解析生效后自动签发证书，通常几分钟内完成。只�
 
 **社交分享图**
 
-首页与 7 个项目的详情页各有 3 张按语言生成的静态 OG 图（1200×630）。图内只用拉丁字符——satori 的默认字体不含中日文字形。
+首页与 5 个可见项目的详情页各有 3 张按语言生成的静态 OG 图（1200×630）。图内只用拉丁字符——satori 的默认字体不含中日文字形。
 
 ## 动效
 
