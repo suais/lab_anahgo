@@ -18,6 +18,9 @@
   --invert-bg: #000000;
   --invert-fg: #ffffff;
   --ring: #000000;
+  /* 版面宽度：container-page 与域名条带共用，改一处即可 */
+  --page-max: 1280px;
+  --page-pad: 24px;
   color-scheme: light;
 }
 
@@ -248,9 +251,9 @@
 @layer components {
   .container-page {
     width: 100%;
-    max-width: 1160px;
+    max-width: var(--page-max);
     margin-inline: auto;
-    padding-inline: 24px;
+    padding-inline: var(--page-pad);
   }
 
   /* 主按钮：明态黑底白字，暗态白底黑字 —— 切换靠反色而非色相 */
@@ -473,10 +476,20 @@
     display: flex;
     width: max-content;
     align-items: center;
-    gap: 28px;
-    /* 写死 linear：匀速才看不出接缝 */
+    /* 份与份的间隔由 .marquee-group 的 padding-right 承担，
+       这里若再加 gap，位移量（1/3 轨道宽）就对不上一份的宽度，接缝会跳 */
     animation: marquee-x calc(var(--n, 7) * 3.2s) linear calc(620ms + var(--burst, 0ms)) infinite backwards;
     will-change: transform;
+  }
+
+  /* 一份 = 一组域名。撑到容器宽是为了条目少时不至于同屏出现两个相同域名 */
+  .marquee-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding-right: 28px;
+    min-width: calc(min(var(--page-max), 100vw) - var(--page-pad) * 2);
   }
 
   .marquee:hover .marquee-track,
