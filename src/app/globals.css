@@ -1,0 +1,563 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------
+   Anahgo Lab — 单色设计令牌
+   只有黑、白、灰阶。明暗两套映射，交互态靠反色填充而非彩色。
+   --------------------------------------------------------------- */
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted: #5f5f5f;
+  --faint: #8c8c8c;
+  --line: #ebebeb;
+  --line-strong: #c9c9c9;
+  --surface: #fafafa;
+  --surface-hover: #f2f2f2;
+  --invert-bg: #000000;
+  --invert-fg: #ffffff;
+  --ring: #000000;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #000000;
+  --foreground: #ededed;
+  --muted: #a1a1a1;
+  --faint: #7a7a7a;
+  --line: #242424;
+  --line-strong: #3d3d3d;
+  --surface: #0a0a0a;
+  --surface-hover: #141414;
+  --invert-bg: #ededed;
+  --invert-fg: #000000;
+  --ring: #ededed;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--background);
+  --color-fg: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-invert-bg: var(--invert-bg);
+  --color-invert-fg: var(--invert-fg);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --radius-card: 10px;
+  --radius-control: 6px;
+
+  --text-display: clamp(2.6rem, 7.2vw, 5rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.045em;
+}
+
+/* ---------------------------------------------------------------
+   动效
+   非用户触发的只有一处：首页载入时的一条编排 —— 标题逐字落位，细线自中心展开，
+   域名条目依次汇入（辐条归毂）。其余全部回应操作，不设滚动逐个揭示。
+   --------------------------------------------------------------- */
+:root {
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 标题逐字落位：只做纵向微移与淡入，不加旋转或缩放 */
+@keyframes glyph-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.22em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 只做透明度，用于编排里跟在标题之后的段落，避免与容器位移叠加 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rule-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes spoke-in {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dot-in {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes item-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes icon-in {
+  from {
+    opacity: 0;
+    transform: rotate(-70deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 域名条带：轨道整体右移一份的宽度后归零，接缝处内容相同，看不出跳变 */
+@keyframes marquee-x {
+  from {
+    transform: translateX(calc(-100% / var(--copies, 3)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  80% {
+    transform: translateX(-2px);
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--foreground);
+    color: var(--background);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  /* 主按钮：明态黑底白字，暗态白底黑字 —— 切换靠反色而非色相 */
+  .btn-solid {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding-inline: 14px;
+    border-radius: var(--radius-control);
+    background: var(--invert-bg);
+    color: var(--invert-fg);
+    font-size: 14px;
+    font-weight: 500;
+    transition: opacity 120ms ease;
+  }
+  .btn-solid:hover {
+    opacity: 0.82;
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding-inline: 12px;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--line);
+    color: var(--foreground);
+    font-size: 14px;
+    transition: background-color 120ms ease, border-color 120ms ease;
+  }
+  .btn-ghost:hover {
+    background: var(--surface-hover);
+    border-color: var(--line-strong);
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border-radius: var(--radius-control);
+    border: 1px solid transparent;
+    color: var(--muted);
+    transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  }
+  .icon-btn:hover {
+    color: var(--foreground);
+    background: var(--surface-hover);
+    border-color: var(--line);
+  }
+
+  .card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--background);
+    transition: border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+  }
+  .card:hover {
+    border-color: var(--line-strong);
+  }
+
+  .hairline {
+    border-top: 1px solid var(--line);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 16px;
+    top: -48px;
+    z-index: 200;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    padding-inline: 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-control);
+    background: var(--background);
+    font-size: 14px;
+    transition: top 120ms ease;
+  }
+  .skip-link:focus-visible {
+    top: 12px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: var(--faint);
+  }
+
+  /*
+   * 载入编排：标题逐字，副句与统计跟上，细线展，域名入，圆点落。
+   * 每步都带 --burst：首页要先放完大爆炸，文字才落位，整体顺延即可，
+   * 不设这个变量的页面按 0 处理，编排照旧。
+   */
+  .m-rise {
+    animation: rise-in 560ms var(--ease-out) both;
+    animation-delay: var(--burst, 0ms);
+  }
+
+  /*
+   * 逐字揭示分两层：外层跑入场动画，内层只跑 hover 过渡。
+   * 若放在同一元素上，animation 的 fill 终态会锁住 transform，
+   * 让 transition 完全失效。
+   */
+  .m-glyph {
+    display: inline-block;
+    animation: glyph-in 520ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 55ms + 120ms + var(--burst, 0ms));
+  }
+
+  .m-glyph > span {
+    display: inline-block;
+    transition: transform 320ms var(--ease-out);
+    /* 移出时不再错峰，整句同时落回 */
+    transition-delay: 0s;
+  }
+
+  /* 鼠标掠过标题：字依次抬起再落回，像拨过一排辐条 */
+  .glyph-field:hover .m-glyph > span {
+    transform: translateY(-0.14em);
+    transition-delay: calc(var(--i, 0) * 30ms);
+  }
+
+  .m-fade {
+    animation: fade-in 520ms var(--ease-out) both;
+    animation-delay: calc(var(--d, 0ms) + var(--burst, 0ms));
+  }
+
+  /*
+   * 段落按句浮现。句子必须保持 inline，否则窄屏下会整块溢出，
+   * 所以这里只用 opacity，不做位移。
+   */
+  .m-phrase {
+    animation: fade-in 480ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 620ms + var(--burst, 0ms));
+  }
+
+  /*
+   * 站点标识悬停抬起。
+   * 不用 Tailwind 的 -translate-y 工具类：v4 写的是 translate 属性，
+   * 与这里的 transform 通道混用后，reduced-motion 的兜底压不住。
+   */
+  .m-lift {
+    display: inline-flex;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .group:hover .m-lift {
+    transform: translateY(-2px);
+  }
+
+  /* 链接下划线自左展开，替代默认的瞬间变色 */
+  .link-line {
+    position: relative;
+  }
+
+  .link-line::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -3px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 240ms var(--ease-out);
+  }
+
+  .link-line:hover::after,
+  .link-line:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .m-rule {
+    animation: rule-in 640ms var(--ease-out) both;
+    animation-delay: calc(100ms + var(--burst, 0ms));
+  }
+
+  .m-spoke {
+    animation: spoke-in 460ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 45ms + 240ms + var(--burst, 0ms));
+  }
+
+  .m-dot {
+    animation: dot-in 420ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 45ms + 400ms + var(--burst, 0ms));
+  }
+
+  /*
+   * 域名条带：持续右移，鼠标进入或键盘聚焦即停。
+   * 两端用遮罩淡出，条目是进出视野而不是被硬切。
+   */
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    padding-block: 14px;
+    --marquee-fade: clamp(16px, 5%, 56px);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--marquee-fade),
+      #000 calc(100% - var(--marquee-fade)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--marquee-fade),
+      #000 calc(100% - var(--marquee-fade)),
+      transparent 100%
+    );
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 28px;
+    /* 写死 linear：匀速才看不出接缝 */
+    animation: marquee-x calc(var(--n, 7) * 3.2s) linear calc(620ms + var(--burst, 0ms)) infinite backwards;
+    will-change: transform;
+  }
+
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* 回应操作：切换布局与分类后重排 */
+  .m-item {
+    animation: item-in 340ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 26ms);
+  }
+
+  .m-overlay {
+    animation: overlay-in 180ms ease both;
+  }
+
+  .m-panel {
+    animation: panel-in 200ms var(--ease-out) both;
+  }
+
+  .m-menu {
+    animation: menu-in 150ms var(--ease-out) both;
+    transform-origin: top right;
+  }
+
+  .m-icon {
+    animation: icon-in 260ms var(--ease-out) both;
+  }
+
+  .m-nudge {
+    animation: nudge 260ms ease-in-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  /*
+   * 时长被压成 0 之后，hover 位移会变成瞬时跳变，比动画本身更突兀，
+   * 所以这类纯装饰位移在减少动效时直接取消。
+   */
+  .m-lift,
+  .group:hover .m-lift,
+  .glyph-field:hover .m-glyph > span {
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    /* 延迟必须一并清零：否则 backwards 填充会让元素先隐身一段再突现 */
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  /*
+   * 无限滚动必须彻底关掉：上面的 0.01ms 只会让它每帧循环一次，比滚还糟。
+   * 关掉之后退回手动横滑，副本也一并撤掉，免得读到重复的域名。
+   */
+  .marquee-track {
+    animation: none !important;
+  }
+  .marquee {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .marquee::-webkit-scrollbar {
+    display: none;
+  }
+  .marquee [data-duplicate] {
+    display: none;
+  }
+}
+
+/* 触屏没有 hover，用按下代替：按住即停，抬手继续 */
+.marquee:active .marquee-track {
+  animation-play-state: paused;
+}
