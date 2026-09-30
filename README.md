@@ -59,6 +59,8 @@ npm run dev
 
 托管在 GitHub（`suais/lab_anahgo`），Vercel 通过 GitHub 集成拉取并自动部署：推送到 `main` 触发生产部署，Pull Request 触发预览部署。
 
+本机 `github.com:443` 直连超时，https 推送会失败。仓库已改为 SSH 推送：`core.sshCommand` 指向 `~/.ssh/lab_anahgo_github`，对应公钥已注册为该仓库的可写 Deploy Key，正常 `git push` 即可。换机器时需要重新生成密钥并登记。
+
 首次接入只需在 Vercel 导入一次，之后不需要手动操作。
 
 **1. 导入项目**
@@ -88,9 +90,11 @@ Project → Settings → Domains → Add `lab.anahgo.com`，然后在 `anahgo.co
 TTL   600（或自动）
 ```
 
-Vercel 校验解析生效后自动签发证书，通常几分钟内完成。只加 `lab` 这一条，其余子域（`jtwarp` / `airsound` / `cloudhub` / `nanopage` / `happyshell`）的解析不受影响。
+Vercel 校验解析生效后自动签发证书，通常几分钟内完成。只改 `lab` 这一条，其余子域不受影响。
 
-如果 DNS 服务商不支持为子域配置 CNAME（罕见），改用 A 记录指向 `76.76.21.21`。
+`anahgo.com` 的 DNS 托管在 Cloudflare，加记录时把代理状态设为 **DNS only（灰色云）**，不要开 Proxied：Cloudflare 的代理会接管 TLS，Vercel 签发与续期证书时的验证请求可能被改写，导致域名卡在 pending。
+
+现状：`lab` 原先是一条指向 `64.83.24.248` 的 A 记录，且未走 Cloudflare，当前已不可访问；其余子域都解析到 Cloudflare（104.21 / 172.67 段）。改之前确认那台机器上没有仍在用的服务。
 
 **4. 提交搜索引擎**
 
