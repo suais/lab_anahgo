@@ -6,7 +6,7 @@ import type { Locale } from '@/lib/i18n';
 const zh = {
     site: {
       name: 'Anahgo Lab',
-      tagline: '小工具与在线服务的索引站',
+      tagline: '在爱的火花中寻找平和，伟大来源于微小的实践',
       description:
         'Anahgo Lab 收录并维护一批独立的在线工具与文档站：协议报文解析、命令速查、配置指南、云服务商导航等。按用途检索，直接进入对应站点。',
     },
@@ -125,7 +125,7 @@ type Dictionary = typeof zh;
 const en: Dictionary = {
     site: {
       name: 'Anahgo Lab',
-      tagline: 'An index of small tools and online services',
+      tagline: 'Find peace in the sparks of love; greatness comes from small practice.',
       description:
         'Anahgo Lab catalogs a set of standalone online tools and documentation sites: protocol packet parsing, command references, setup guides, cloud provider directories and more. Browse by purpose and jump straight to the site.',
     },
@@ -241,7 +241,7 @@ const en: Dictionary = {
 const ja: Dictionary = {
     site: {
       name: 'Anahgo Lab',
-      tagline: '小さなツールとオンラインサービスの索引',
+      tagline: '愛の火花に平和を見いだし、偉大さは小さな実践から生まれる。',
       description:
         'Anahgo Lab は独立したオンラインツールとドキュメントサイトをまとめた索引です。プロトコル解析、コマンド早見表、設定ガイド、クラウド事業者のディレクトリなどを用途から探せます。',
     },

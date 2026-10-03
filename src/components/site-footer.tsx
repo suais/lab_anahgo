@@ -15,6 +15,8 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
             <Logo size={18} />
             <Wordmark />
           </div>
+          {/* 站点标语：页脚首列在版式上已留出 42ch 的文本量度，这里落位 */}
+          <p className="mt-4 text-[14px] leading-relaxed text-muted">{dict.site.tagline}</p>
         </div>
 
         <div>
