@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import { getProject, getProjects } from '@/lib/content/projects';
 import { locales } from '@/lib/i18n';
 
-export const alt = 'anahgo lab';
+export const alt = 'Anahgo Lab';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -40,7 +40,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ slu
             fontSize: 64,
           }}
         >
-          anahgo lab
+          Anahgo Lab
         </div>
       ),
       size,
@@ -79,7 +79,7 @@ export default async function OpengraphImage({ params }: { params: Promise<{ slu
               <div style={{ width: 20, height: 3, background: '#fff' }} />
               <div style={{ width: 13, height: 3, background: '#fff' }} />
             </div>
-            <div style={{ fontSize: 34, letterSpacing: '-0.02em' }}>anahgo lab</div>
+            <div style={{ fontSize: 34, letterSpacing: '-0.02em' }}>Anahgo Lab</div>
           </div>
           <div style={{ fontSize: 24, color: '#8c8c8c' }}>
             {categoryLabel[project.category] ?? 'Site'}

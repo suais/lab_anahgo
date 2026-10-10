@@ -1,7 +1,7 @@
 export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lab.anahgo.com',
   name: 'Anahgo Lab',
-  shortName: 'anahgo lab',
+  shortName: 'Anahgo Lab',
   /** 站点标识：一个索引卡式的几何标记，与文字组合使用 */
   owner: 'Anahgo Lab',
   /** robots 与站点地图都不收录管理路径 */

@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import { getProjects } from '@/lib/content/projects';
 import { locales } from '@/lib/i18n';
 
-export const alt = 'anahgo lab';
+export const alt = 'Anahgo Lab';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -48,7 +48,7 @@ export default function OpengraphImage() {
             <div style={{ width: 20, height: 3, background: '#fff' }} />
             <div style={{ width: 13, height: 3, background: '#fff' }} />
           </div>
-          <div style={{ fontSize: 34, letterSpacing: '-0.02em' }}>anahgo lab</div>
+          <div style={{ fontSize: 34, letterSpacing: '-0.02em' }}>Anahgo Lab</div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>

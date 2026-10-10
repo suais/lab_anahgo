@@ -23,8 +23,8 @@ export function Logo({ size = 20 }: { size?: number }) {
 export function Wordmark({ compact = false }: { compact?: boolean }) {
   return (
     <span className="inline-flex items-baseline gap-[3px] text-[15px] leading-none tracking-[-0.02em]">
-      <span className="font-medium">anahgo</span>
-      {!compact && <span className="text-faint transition-colors duration-200 group-hover:text-muted">lab</span>}
+      <span className="font-medium">Anahgo</span>
+      {!compact && <span className="text-faint transition-colors duration-200 group-hover:text-muted">Lab</span>}
     </span>
   );
 }
