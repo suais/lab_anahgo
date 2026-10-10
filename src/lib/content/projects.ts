@@ -300,6 +300,80 @@ export const projects: Project[] = [
     },
     featured: true,
   },
+  {
+    slug: 'nextdo',
+    brand: 'NextDo',
+    name: {
+      zh: 'NextDo 工作台',
+      en: 'NextDo Workspace',
+      ja: 'NextDo ワークスペース',
+    },
+    url: 'https://nextdo.anahgo.com/',
+    domain: 'nextdo.anahgo.com',
+    category: 'tool',
+    status: 'live',
+    tags: ['项目管理', '待办', 'AI Agent', '桌面客户端'],
+    released: '2026-10-10',
+    updated: '2026-10-10',
+    tagline: {
+      zh: '写下就有人接着做',
+      en: 'Write it down, and it gets done',
+      ja: '書けば、あとは誰かがやる',
+    },
+    description: {
+      zh: '项目、待办、日程、笔记与邮箱收在一处。标上 aiAgent 的任务会被远程代理领走：它读你指定的目录、改文件、跑命令，再把结果写回同一个 Markdown 文件。桌面客户端常驻托盘，几台机器可以同时干。',
+      en: 'Projects, todos, schedule, notes and mail in one place. Mark a task aiAgent and a remote agent picks it up: it reads the directory you name, edits files, runs commands, then writes the result back to the same Markdown file. A desktop client sits in the tray, several machines at once.',
+      ja: 'プロジェクト、ToDo、予定、ノート、メールを一か所に。aiAgent と付けたタスクはリモートエージェントが引き取り、指定したディレクトリでファイルを読み書きし、コマンドを実行して結果を同じ Markdown に書き戻します。デスクトップクライアントはトレイに常駐し、複数台で同時に動かせます。',
+    },
+    highlights: {
+      zh: ['项目、待办、日程、笔记与邮箱在一处', '标为 aiAgent 的任务交给远程代理执行', '交接只靠一个 Markdown 文件', '桌面客户端常驻托盘，多机并行'],
+      en: [
+        'Projects, todos, schedule, notes and mail together',
+        'aiAgent tasks handed to a remote agent',
+        'Handoff through a single Markdown file',
+        'Desktop client in the tray, several machines at once',
+      ],
+      ja: ['プロジェクト・ToDo・予定・ノート・メールを集約', 'aiAgent タスクはリモートエージェントが実行', '引き継ぎは Markdown 1 ファイルだけ', 'トレイ常駐クライアントで複数台が並行稼働'],
+    },
+    featured: true,
+  },
+  {
+    slug: 'mail',
+    brand: 'Anahgo Mail',
+    name: {
+      zh: 'Anahgo Mail 邮箱',
+      en: 'Anahgo Mail',
+      ja: 'Anahgo Mail メール',
+    },
+    url: 'https://mail.anahgo.com/',
+    domain: 'mail.anahgo.com',
+    category: 'tool',
+    status: 'live',
+    tags: ['自建邮箱', 'SMTP', 'IMAP', 'Webmail'],
+    released: '2026-10-10',
+    updated: '2026-10-10',
+    tagline: {
+      zh: '自己的域名，自己的服务器',
+      en: 'Your domain, on your own server',
+      ja: '自分のドメイン、自分のサーバー',
+    },
+    description: {
+      zh: '@anahgo.com 上的自建邮箱。邮件与附件存在自己的服务器里，也支持用 SMTP / IMAP / POP3 接进惯用的邮件客户端。',
+      en: 'Self-hosted mail on @anahgo.com. Messages and attachments stay on your own server, and SMTP / IMAP / POP3 let you connect the mail client you already use.',
+      ja: '@anahgo.com の自前メール。メールと添付ファイルは自分のサーバーに置かれ、SMTP / IMAP / POP3 で使い慣れたメールクライアントからも接続できます。',
+    },
+    highlights: {
+      zh: ['@anahgo.com 域名邮箱', '邮件与附件存在自建服务器', '支持 SMTP / IMAP / POP3 接入', '网页端打开即用'],
+      en: [
+        'Mailbox on the @anahgo.com domain',
+        'Messages and attachments on your own server',
+        'SMTP / IMAP / POP3 access',
+        'Web client, nothing to install',
+      ],
+      ja: ['@anahgo.com ドメインのメールアドレス', 'メールと添付は自前サーバーに保存', 'SMTP / IMAP / POP3 で接続可能', 'ブラウザを開くだけで使える'],
+    },
+    featured: true,
+  },
 ];
 
 /** 全量清单，含已撤下的项目。只有管理端用它，便于把项目重新放出来 */
