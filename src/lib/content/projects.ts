@@ -374,6 +374,43 @@ export const projects: Project[] = [
     },
     featured: true,
   },
+  {
+    slug: 'envvault',
+    brand: 'EnvVault',
+    name: {
+      zh: 'EnvVault 环境变量',
+      en: 'EnvVault',
+      ja: 'EnvVault 環境変数',
+    },
+    url: 'https://envvault.anahgo.com/',
+    domain: 'envvault.anahgo.com',
+    category: 'tool',
+    status: 'live',
+    tags: ['环境变量', '.env', 'AES-256', '团队协作'],
+    released: '2026-10-14',
+    updated: '2026-10-14',
+    tagline: {
+      zh: '环境变量，一处收好',
+      en: 'Environment variables, in one vault',
+      ja: '環境変数を一つの金庫に',
+    },
+    description: {
+      zh: '团队共用的环境变量管理平台。一个项目可分开开发、预发布与生产多套环境，变量值以 AES-256-GCM 加密落库，每次改动都留下操作人与新旧值，也支持 .env 与 JSON 批量导入导出。',
+      en: 'Environment variables for a team, in one place. Split development, preview and production per project; values are encrypted at rest with AES-256-GCM, every change records who did it and what moved, and .env / JSON import and export are built in.',
+      ja: 'チームで使う環境変数の管理基盤。プロジェクトごとに開発・プレビュー・本番を分けて管理し、値は AES-256-GCM で暗号化して保存、変更のたびに操作者と新旧の値が残り、.env と JSON の一括インポート／エクスポートにも対応します。',
+    },
+    highlights: {
+      zh: ['按项目分开管理多套环境', '变量值 AES-256-GCM 加密落库', '.env 与 JSON 一键导入导出', '变更记录与操作审计'],
+      en: [
+        'Separate environments per project',
+        'Values encrypted at rest with AES-256-GCM',
+        '.env and JSON import / export',
+        'Change history and audit log',
+      ],
+      ja: ['プロジェクトごとに複数環境を分離管理', '値は AES-256-GCM で暗号化保存', '.env と JSON を一括インポート・エクスポート', '変更履歴と操作監査'],
+    },
+    featured: true,
+  },
 ];
 
 /** 全量清单，含已撤下的项目。只有管理端用它，便于把项目重新放出来 */
