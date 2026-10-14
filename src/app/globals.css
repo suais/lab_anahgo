@@ -18,6 +18,8 @@
   --invert-bg: #000000;
   --invert-fg: #ffffff;
   --ring: #000000;
+  /* 全站唯一的非灰阶色：在线状态用绿点表示，形状区分不足以一眼看出运行状态 */
+  --live: #16a34a;
   /* 版面宽度：container-page 与域名条带共用，改一处即可 */
   --page-max: 1280px;
   --page-pad: 24px;
@@ -36,6 +38,8 @@
   --invert-bg: #ededed;
   --invert-fg: #000000;
   --ring: #ededed;
+  /* 暗底上要更亮一档才看得清，与亮色主题的绿不是同一个值 */
+  --live: #4ade80;
   color-scheme: dark;
 }
 
@@ -50,6 +54,7 @@
   --color-surface-hover: var(--surface-hover);
   --color-invert-bg: var(--invert-bg);
   --color-invert-fg: var(--invert-fg);
+  --color-live: var(--live);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
@@ -196,6 +201,32 @@
   }
   to {
     transform: translateX(0);
+  }
+}
+
+/* 在线状态：核心点跳一下，外圈随之向外扩散淡出，像心跳而非匀速呼吸 */
+@keyframes live-beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.24);
+  }
+  28% {
+    transform: scale(1);
+  }
+}
+
+@keyframes live-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
   }
 }
 
@@ -448,6 +479,42 @@
   }
 
   /*
+   * 在线状态：跳动的绿点，不再显示文字。
+   * 尺寸写死并用伪元素画，扩散时不牵动周围布局；文字走 sr-only 留给读屏，
+   * title 留给鼠标悬停，视觉上只剩一个点。
+   */
+  .status-live {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 9px;
+    height: 9px;
+    flex: none;
+  }
+
+  /* 外圈：周期向外扩散并淡出 */
+  .status-live::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: var(--live);
+    opacity: 0;
+    animation: live-ring 1.8s var(--ease-out) infinite;
+  }
+
+  /* 核心：常态常亮，随节拍轻微放大 */
+  .status-live::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 999px;
+    background: var(--live);
+    animation: live-beat 1.8s var(--ease-out) infinite;
+  }
+
+  /*
    * 域名条带：持续右移，鼠标进入或键盘聚焦即停。
    * 两端用遮罩淡出，条目是进出视野而不是被硬切。
    */
@@ -567,6 +634,17 @@
   }
   .marquee [data-duplicate] {
     display: none;
+  }
+
+  /*
+   * 绿点的脉动同理：上面的 0.01ms 会让它每帧跳一次。
+   * 关掉动画、去掉扩散圈，只留一个常亮的绿点 —— 状态信息不丢，只是不动。
+   */
+  .status-live::before {
+    display: none;
+  }
+  .status-live::after {
+    animation: none !important;
   }
 }
 
